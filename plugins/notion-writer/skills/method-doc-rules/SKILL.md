@@ -77,6 +77,82 @@ version: 0.1.0
 </callout>
 ```
 
+# 템플릿
+
+자주 쓰는 블록의 표준 형식. 그대로 복사해서 내용만 채워 쓴다. 다른 규칙과 충돌하면 위의 규칙이 우선한다.
+
+## 문서 제목
+
+```
+[ESP32-S3] 맥에서 개발보드 셋업 하는 법 (Mac, PlatformIO)
+```
+
+## 섹션 골격
+
+````markdown
+# 개요
+
+X 를 Y 환경에서 Z 확인.
+
+# 준비
+
+1. 의존 셋업 [링크].
+2. 케이블/보드 실물 연결.
+
+# 실행
+
+1. 첫 액션.
+2. 다음 액션.
+
+# 확인
+
+<callout icon="✅" color="green_bg">
+    사용자가 목적을 완료했음을 판단할 수 있는 상태.
+</callout>
+````
+
+## 명령 + ✅ Output 쌍
+
+번호 항목 본문 아래에 명령 코드블록, `**✅ Output**` 라벨, 출력 코드블록을 모두 한 단계 들여쓴다. 좌측 세로선이 라벨과 출력 코드블록 좌측에 표시되어야 정상. 명령 코드블록에는 라벨을 붙이지 않는다.
+
+````markdown
+1. Docker CLI 서버 연결 확인.
+
+    ```bash
+    docker --version
+    docker-compose version
+    colima version
+    ```
+
+    **✅ Output**
+
+    ```bash
+    Docker version 29.4.3, build 055a478ea9
+    Docker Compose version 5.1.3
+    colima version 0.10.1
+    ```
+````
+
+## ⚠️ 오류 콜아웃
+
+메인 절차에서 벗어나는 예외, 오류 대응, 환경별 우회. 제목에 `참고` 같은 단어를 붙이지 않는다. 번호 항목 안에 둘 경우 콜아웃 태그 전체를 한 단계 들여쓴다.
+
+````markdown
+<callout icon="⚠️" color="yellow_bg">
+    `docker: Cannot connect to the Docker daemon` 오류 시 Colima 데몬 재시작 필요.
+</callout>
+````
+
+## ✅ 성공 콜아웃
+
+`# 확인` 섹션 끝 또는 큰 흐름 단위 끝에 둔다. `성공 기준` 같은 라벨을 붙이지 않고 상태 설명만 적는다.
+
+````markdown
+<callout icon="✅" color="green_bg">
+    `docker ps` 가 정상 응답하고 컨테이너 리스트가 출력되면 셋업 완료.
+</callout>
+````
+
 ## 규칙 업데이트
 
 사용자가 이 규칙에 대한 피드백을 줄 때, 변경 사항은 이 SKILL.md 파일을 직접 update 한 뒤 `git commit && git push` 한다. 다른 머신에서는 `claude plugin update claude-code-plugin-pack` 로 반영.
