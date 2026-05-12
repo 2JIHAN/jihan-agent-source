@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "notion-writer",
-      "description": "Notion-targeted document writer for Claude Code. Ships general + method doc rules tailored to Notion markdown, and a writer agent that publishes pages via the Notion MCP.",
+      "description": "Notion-targeted document writer for Claude Code. Ships general + method doc rules tailored to Notion markdown, and a notion-writer agent that publishes pages via the Notion MCP.",
       "source": "./plugins/notion-writer"
     }
   ]

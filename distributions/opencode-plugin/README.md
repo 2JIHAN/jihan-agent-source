@@ -1,13 +1,13 @@
 # OpenCode distribution
 
-OpenCode 배포물. `source/` 아래 단일 원본에서 생성된 skills 와 writer agent 를 포함한다.
+OpenCode 배포물. `source/` 아래 단일 원본에서 생성된 skills 와 notion-writer agent 를 포함한다.
 
 ## 구조
 
 ```text
 .opencode/
 ├── agents/
-│   └── writer.md
+│   └── notion-writer.md
 └── skills/
     ├── general-doc-rules/SKILL.md
     └── method-doc-rules/SKILL.md

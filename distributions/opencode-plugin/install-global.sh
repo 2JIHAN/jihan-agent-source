@@ -13,7 +13,7 @@ cp "$SCRIPT_DIR/.opencode/skills/general-doc-rules/SKILL.md" \
   "$OPENCODE_CONFIG_DIR/skills/general-doc-rules/SKILL.md"
 cp "$SCRIPT_DIR/.opencode/skills/method-doc-rules/SKILL.md" \
   "$OPENCODE_CONFIG_DIR/skills/method-doc-rules/SKILL.md"
-cp "$SCRIPT_DIR/.opencode/agents/writer.md" \
-  "$OPENCODE_CONFIG_DIR/agents/writer.md"
+cp "$SCRIPT_DIR/.opencode/agents/notion-writer.md" \
+  "$OPENCODE_CONFIG_DIR/agents/notion-writer.md"
 
-echo "installed OpenCode skills and writer agent to $OPENCODE_CONFIG_DIR"
+echo "installed OpenCode skills and notion-writer agent to $OPENCODE_CONFIG_DIR"

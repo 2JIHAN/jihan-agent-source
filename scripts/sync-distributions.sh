@@ -20,26 +20,26 @@ cp "$SOURCE_DIR/skills/general-doc-rules/SKILL.md" \
   "$CLAUDE_PLUGIN_DIR/skills/general-doc-rules/SKILL.md"
 cp "$SOURCE_DIR/skills/method-doc-rules/SKILL.md" \
   "$CLAUDE_PLUGIN_DIR/skills/method-doc-rules/SKILL.md"
-cp "$SOURCE_DIR/agents/writer.md" \
-  "$CLAUDE_PLUGIN_DIR/agents/writer.md"
+cp "$SOURCE_DIR/agents/notion-writer.md" \
+  "$CLAUDE_PLUGIN_DIR/agents/notion-writer.md"
 
 cp "$SOURCE_DIR/skills/general-doc-rules/SKILL.md" \
   "$OPENCODE_DIST_DIR/.opencode/skills/general-doc-rules/SKILL.md"
 cp "$SOURCE_DIR/skills/method-doc-rules/SKILL.md" \
   "$OPENCODE_DIST_DIR/.opencode/skills/method-doc-rules/SKILL.md"
 
-writer_description=$(awk '/^description: / { sub(/^description: /, ""); print; exit }' "$SOURCE_DIR/agents/writer.md")
+agent_description=$(awk '/^description: / { sub(/^description: /, ""); print; exit }' "$SOURCE_DIR/agents/notion-writer.md")
 
 {
   printf -- "---\n"
-  printf "description: %s\n" "$writer_description"
+  printf "description: %s\n" "$agent_description"
   printf "mode: subagent\n"
   printf -- "---\n\n"
   awk '
     NR == 1 && $0 == "---" { in_frontmatter = 1; next }
     in_frontmatter && $0 == "---" { in_frontmatter = 0; body = 1; next }
     body { print }
-  ' "$SOURCE_DIR/agents/writer.md"
-} > "$OPENCODE_DIST_DIR/.opencode/agents/writer.md"
+  ' "$SOURCE_DIR/agents/notion-writer.md"
+} > "$OPENCODE_DIST_DIR/.opencode/agents/notion-writer.md"
 
 echo "synced distributions from source"
