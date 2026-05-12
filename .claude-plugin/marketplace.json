@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "jihan-agents",
-  "description": "Claude Code distribution for Agent Capability Source.",
+  "description": "Claude Code distribution for Jihan Agent Source.",
   "owner": {
     "name": "2jihan"
   },

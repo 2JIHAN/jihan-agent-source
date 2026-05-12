@@ -1,11 +1,11 @@
-# agent-capability-source
+# jihan-agent-source
 
 Claude Code 와 OpenCode 에 배포할 에이전트 규칙, skills, agents 의 단일 원본. OSST (One Source Single Truth) 원칙에 따라 `source/` 아래 파일만 직접 수정하고, 각 런타임 배포물은 sync 스크립트로 생성한다.
 
 ## 구조
 
 ```text
-agent-capability-source/
+jihan-agent-source/
 ├── source/
 │   ├── agents/
 │   │   └── writer.md
@@ -27,19 +27,21 @@ agent-capability-source/
 
 ## 수록 항목
 
-| 이름 | 유형 | 설명 |
-| --- | --- | --- |
-| `general-doc-rules` | skill | 문서 작성 공통 규칙 |
-| `method-doc-rules` | skill | 단계별 방법 문서 작성 규칙 |
-| `writer` | agent | 문서 작성 전담 에이전트 |
+
+| 이름                  | 유형    | 설명              |
+| ------------------- | ----- | --------------- |
+| `general-doc-rules` | skill | 문서 작성 공통 규칙     |
+| `method-doc-rules`  | skill | 단계별 방법 문서 작성 규칙 |
+| `writer`            | agent | 문서 작성 전담 에이전트   |
+
 
 ## Claude Code 설치
 
 전체 설치.
 
 ```bash
-git clone https://github.com/2JIHAN/agent-capability-source ~/agent-capability-source
-~/agent-capability-source/scripts/install-all.sh
+git clone https://github.com/2JIHAN/jihan-agent-source ~/jihan-agent-source
+~/jihan-agent-source/scripts/install-all.sh
 ```
 
 `jq` 가 필요하므로 없으면 `brew install jq` 먼저.
@@ -47,7 +49,7 @@ git clone https://github.com/2JIHAN/agent-capability-source ~/agent-capability-s
 단일 plugin 설치.
 
 ```bash
-claude plugin marketplace add https://github.com/2JIHAN/agent-capability-source
+claude plugin marketplace add https://github.com/2JIHAN/jihan-agent-source
 claude plugin install notion-writer@jihan-agents
 ```
 
@@ -62,13 +64,7 @@ claude plugin list
 OpenCode 전역 config 에 skills 와 writer agent 를 설치한다.
 
 ```bash
-~/agent-capability-source/distributions/opencode-plugin/install-global.sh
-```
-
-repo 이름을 아직 바꾸기 전이면 기존 로컬 경로를 사용한다.
-
-```bash
-~/claude-code-plugin-pack/distributions/opencode-plugin/install-global.sh
+~/jihan-agent-source/distributions/opencode-plugin/install-global.sh
 ```
 
 OpenCode 는 다음 경로에서 자동 발견한다.
@@ -81,29 +77,25 @@ OpenCode 는 다음 경로에서 자동 발견한다.
 ## 업데이트 흐름
 
 1. `source/` 아래 원본만 수정.
-
-    ```bash
-    $EDITOR ~/agent-capability-source/source/skills/method-doc-rules/SKILL.md
-    ```
+  ```bash
+    $EDITOR ~/jihan-agent-source/source/skills/method-doc-rules/SKILL.md
+  ```
 2. 배포물 동기화.
-
-    ```bash
-    cd ~/agent-capability-source
+  ```bash
+    cd ~/jihan-agent-source
     scripts/sync-distributions.sh
-    ```
+  ```
 3. 필요한 런타임에 반영.
-
-    ```bash
+  ```bash
     distributions/opencode-plugin/install-global.sh
     claude plugin update notion-writer
-    ```
+  ```
 4. 변경 사항 커밋 후 푸시.
-
-    ```bash
+  ```bash
     git add -A
     git commit -m "Update agent document rules"
     git push
-    ```
+  ```
 
 ## 확장
 

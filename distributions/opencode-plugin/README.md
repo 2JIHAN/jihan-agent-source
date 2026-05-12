@@ -18,13 +18,7 @@ OpenCode 배포물. `source/` 아래 단일 원본에서 생성된 skills 와 wr
 전역 OpenCode 설정에 설치한다.
 
 ```bash
-~/agent-capability-source/distributions/opencode-plugin/install-global.sh
-```
-
-repo 이름을 아직 바꾸기 전이면 기존 경로를 사용한다.
-
-```bash
-~/claude-code-plugin-pack/distributions/opencode-plugin/install-global.sh
+~/jihan-agent-source/distributions/opencode-plugin/install-global.sh
 ```
 
 ## 업데이트
