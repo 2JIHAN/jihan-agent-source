@@ -1,6 +1,6 @@
 {
-  "name": "agent-doc-rules",
-  "description": "Document-writing rules and writer agent for Claude Code (general doc rules + method/how-to doc rules)",
+  "name": "claude-code-pack",
+  "description": "Personal Claude Code pack bundling rules, agents, skills, and hooks. Currently ships doc-writing rules (general + method) and a writer agent; extensible with more skills/agents over time.",
   "version": "0.1.0",
   "author": {
     "name": "sonuvis-jihan"

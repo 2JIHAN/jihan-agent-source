@@ -1,15 +1,15 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "agent-doc-rules",
-  "description": "Single-plugin marketplace for agent-doc-rules",
+  "name": "claude-code-pack",
+  "description": "Personal Claude Code plugin pack — single-plugin marketplace.",
   "owner": {
     "name": "sonuvis-jihan"
   },
   "plugins": [
     {
-      "name": "agent-doc-rules",
-      "description": "Document-writing rules and writer agent (general + method docs)",
-      "source": "."
+      "name": "claude-code-pack",
+      "description": "Personal Claude Code pack (rules, agents, skills, hooks). Ships doc-writing rules + writer agent; designed to grow.",
+      "source": "./"
     }
   ]
 }
