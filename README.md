@@ -23,7 +23,7 @@ agent-capability-source/
     └── sync-distributions.sh
 ```
 
-루트의 `.claude-plugin/` 과 `plugins/` 구조는 기존 Claude Code marketplace 설치 호환을 위해 유지한다. repo 이름을 `agent-capability-source` 로 바꿔도 Claude marketplace 이름은 당분간 `claude-code-plugin-pack` 으로 유지한다.
+루트의 `.claude-plugin/` 과 `plugins/` 구조는 Claude Code marketplace 호환 배포를 위한 것이다. Claude marketplace 이름은 `jihan-agents`.
 
 ## 수록 항목
 
@@ -48,7 +48,7 @@ git clone https://github.com/2JIHAN/agent-capability-source ~/agent-capability-s
 
 ```bash
 claude plugin marketplace add https://github.com/2JIHAN/agent-capability-source
-claude plugin install notion-writer@claude-code-plugin-pack
+claude plugin install notion-writer@jihan-agents
 ```
 
 설치 확인.

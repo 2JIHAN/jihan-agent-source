@@ -3,6 +3,6 @@
   "description": "Notion-targeted document writer. General + method doc rules using Notion-flavored markdown (callouts, code blocks, page hierarchy) plus a writer agent that creates/updates Notion pages via the Notion MCP. Generated from Agent Capability Source.",
   "version": "0.1.0",
   "author": {
-    "name": "sonuvis-jihan"
+    "name": "2jihan"
   }
 }

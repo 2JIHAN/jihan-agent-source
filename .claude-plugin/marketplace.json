@@ -1,9 +1,9 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "claude-code-plugin-pack",
-  "description": "Claude Code distribution for Agent Capability Source. Keeps existing marketplace name for install compatibility.",
+  "name": "jihan-agents",
+  "description": "Claude Code distribution for Agent Capability Source.",
   "owner": {
-    "name": "sonuvis-jihan"
+    "name": "2jihan"
   },
   "plugins": [
     {
