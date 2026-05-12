@@ -29,15 +29,21 @@ claude-code-plugin-pack/        ← 마켓플레이스 루트
 
 ## 설치
 
+### 전체 설치 (모든 plugin 한 번에)
+
+repo 를 clone 한 뒤 동봉된 스크립트 실행. 마켓플레이스 등록과 모든 plugin 설치를 한 번에 처리한다.
+
 ```bash
-claude plugin marketplace add https://github.com/2JIHAN/claude-code-plugin-pack
-claude plugin install notion-writer@claude-code-plugin-pack
+git clone https://github.com/2JIHAN/claude-code-plugin-pack ~/claude-code-plugin-pack
+~/claude-code-plugin-pack/scripts/install-all.sh
 ```
 
-로컬 개발 중에는 GitHub 없이 디렉터리 경로로도 설치 가능.
+`jq` 가 필요하므로 없으면 `brew install jq` 먼저.
+
+### 단일 plugin 설치
 
 ```bash
-claude plugin marketplace add ~/claude-code-plugin-pack
+claude plugin marketplace add https://github.com/2JIHAN/claude-code-plugin-pack
 claude plugin install notion-writer@claude-code-plugin-pack
 ```
 
