@@ -1,49 +1,53 @@
-# claude-code-plugin-pack
+# agent-capability-source
 
-개인용 Claude Code 플러그인 팩 (마켓플레이스). 룰, 에이전트, 스킬, 훅을 관심사 단위로 묶어 sub-plugin 으로 호스팅한다. 다른 머신에서 한 줄로 받아 쓰고, 새 관심사가 생기면 `plugins/<name>/` 디렉터리를 추가하는 식으로 확장한다.
+Claude Code 와 OpenCode 에 배포할 에이전트 규칙, skills, agents 의 단일 원본. OSST (One Source Single Truth) 원칙에 따라 `source/` 아래 파일만 직접 수정하고, 각 런타임 배포물은 sync 스크립트로 생성한다.
 
 ## 구조
 
-```
-claude-code-plugin-pack/        ← 마켓플레이스 루트
+```text
+agent-capability-source/
+├── source/
+│   ├── agents/
+│   │   └── writer.md
+│   └── skills/
+│       ├── general-doc-rules/SKILL.md
+│       └── method-doc-rules/SKILL.md
+├── plugins/
+│   └── notion-writer/                  # Claude Code marketplace 호환 배포물
+├── distributions/
+│   └── opencode-plugin/                # OpenCode 배포물
 ├── .claude-plugin/
-│   └── marketplace.json        ← 마켓플레이스 정의 + plugin 목록
-└── plugins/
-    └── notion-writer/          ← plugin 1: Notion 문서 작성 규칙 + writer 에이전트
-        ├── .claude-plugin/
-        │   └── plugin.json
-        ├── agents/
-        │   └── writer.md
-        └── skills/
-            ├── general-doc-rules/SKILL.md
-            └── method-doc-rules/SKILL.md
+│   └── marketplace.json
+└── scripts/
+    ├── install-all.sh
+    └── sync-distributions.sh
 ```
 
-스코프, `@` 뒤는 마켓플레이스 이름 (이 repo 이름), `@` 앞은 그 안의 plugin 이름.
+루트의 `.claude-plugin/` 과 `plugins/` 구조는 기존 Claude Code marketplace 설치 호환을 위해 유지한다. repo 이름을 `agent-capability-source` 로 바꿔도 Claude marketplace 이름은 당분간 `claude-code-plugin-pack` 으로 유지한다.
 
-## 수록된 plugin
+## 수록 항목
 
-| plugin | 설명 |
-| --- | --- |
-| `notion-writer` | Notion 문서 작성 규칙 (general + method) 과 writer 에이전트 |
+| 이름 | 유형 | 설명 |
+| --- | --- | --- |
+| `general-doc-rules` | skill | 문서 작성 공통 규칙 |
+| `method-doc-rules` | skill | 단계별 방법 문서 작성 규칙 |
+| `writer` | agent | 문서 작성 전담 에이전트 |
 
-## 설치
+## Claude Code 설치
 
-### 전체 설치 (모든 plugin 한 번에)
-
-repo 를 clone 한 뒤 동봉된 스크립트 실행. 마켓플레이스 등록과 모든 plugin 설치를 한 번에 처리한다.
+전체 설치.
 
 ```bash
-git clone https://github.com/2JIHAN/claude-code-plugin-pack ~/claude-code-plugin-pack
-~/claude-code-plugin-pack/scripts/install-all.sh
+git clone https://github.com/2JIHAN/agent-capability-source ~/agent-capability-source
+~/agent-capability-source/scripts/install-all.sh
 ```
 
 `jq` 가 필요하므로 없으면 `brew install jq` 먼저.
 
-### 단일 plugin 설치
+단일 plugin 설치.
 
 ```bash
-claude plugin marketplace add https://github.com/2JIHAN/claude-code-plugin-pack
+claude plugin marketplace add https://github.com/2JIHAN/agent-capability-source
 claude plugin install notion-writer@claude-code-plugin-pack
 ```
 
@@ -53,45 +57,58 @@ claude plugin install notion-writer@claude-code-plugin-pack
 claude plugin list
 ```
 
+## OpenCode 설치
+
+OpenCode 전역 config 에 skills 와 writer agent 를 설치한다.
+
+```bash
+~/agent-capability-source/distributions/opencode-plugin/install-global.sh
+```
+
+repo 이름을 아직 바꾸기 전이면 기존 로컬 경로를 사용한다.
+
+```bash
+~/claude-code-plugin-pack/distributions/opencode-plugin/install-global.sh
+```
+
+OpenCode 는 다음 경로에서 자동 발견한다.
+
+```text
+~/.config/opencode/skills/<name>/SKILL.md
+~/.config/opencode/agents/<name>.md
+```
+
 ## 업데이트 흐름
 
-1. 로컬에서 룰 또는 에이전트 정의 편집.
+1. `source/` 아래 원본만 수정.
 
     ```bash
-    $EDITOR ~/claude-code-plugin-pack/plugins/notion-writer/skills/method-doc-rules/SKILL.md
+    $EDITOR ~/agent-capability-source/source/skills/method-doc-rules/SKILL.md
     ```
-2. 변경 사항 커밋 후 푸시.
+2. 배포물 동기화.
 
     ```bash
-    cd ~/claude-code-plugin-pack
-    git add -A
-    git commit -m "docs: ..."
-    git push
+    cd ~/agent-capability-source
+    scripts/sync-distributions.sh
     ```
-3. 다른 머신에서 최신 반영.
+3. 필요한 런타임에 반영.
 
     ```bash
+    distributions/opencode-plugin/install-global.sh
     claude plugin update notion-writer
     ```
+4. 변경 사항 커밋 후 푸시.
 
-## 사용
-
-- 문서 작성 요청을 받으면 Claude 가 `general-doc-rules` skill 을 자동으로 적용한다.
-- 단계별 실행 가이드, 설치/설정/테스트 절차를 요청하면 추가로 `method-doc-rules` skill 이 함께 적용된다.
-- 전담 에이전트가 필요하면 `writer` 에이전트를 호출.
+    ```bash
+    git add -A
+    git commit -m "Update agent document rules"
+    git push
+    ```
 
 ## 확장
 
-새 관심사 (예 `code-review`, `research`) 를 추가하려면 다음 단계를 따른다.
-
-1. `plugins/<name>/` 디렉터리 생성.
-2. 그 안에 `.claude-plugin/plugin.json` 과 `agents/`, `skills/`, `commands/`, `hooks/` 중 필요한 것을 둔다.
-3. 루트 `.claude-plugin/marketplace.json` 의 `plugins` 배열에 새 plugin 엔트리 추가 (`name`, `description`, `source: "./plugins/<name>"`).
-4. `git commit && git push`.
-5. 다른 머신에서 `claude plugin install <name>@claude-code-plugin-pack` 으로 설치.
-
-같은 마켓플레이스 안의 plugin 끼리는 독립적으로 install/uninstall/update 가 가능하다.
+새 규칙, skill, agent 는 먼저 `source/` 아래에 추가한다. 이후 `scripts/sync-distributions.sh` 에 Claude Code 와 OpenCode 배포 규칙을 추가한다.
 
 ## 규칙 변경 원칙
 
-룰에 대한 피드백을 받으면 로컬 메모리, `~/.claude/CLAUDE.md`, 개별 프로젝트 메모리에 저장하지 않고 이 repo 의 해당 `SKILL.md` 본문을 직접 수정한 뒤 커밋/푸시. 단일 원본 (single source of truth) 을 유지하기 위함.
+룰에 대한 피드백을 받으면 로컬 메모리, `CLAUDE.md`, 개별 프로젝트 메모리에 저장하지 않고 `source/` 아래 원본을 수정한 뒤 `scripts/sync-distributions.sh` 로 배포물을 갱신한다. 단일 원본을 유지하기 위함.
