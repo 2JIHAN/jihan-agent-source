@@ -1,5 +1,5 @@
 {
-  "name": "claude-code-pack",
+  "name": "claude-code-plugin-pack",
   "description": "Personal Claude Code pack bundling rules, agents, skills, and hooks. Currently ships doc-writing rules (general + method) and a writer agent; extensible with more skills/agents over time.",
   "version": "0.1.0",
   "author": {

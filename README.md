@@ -1,4 +1,4 @@
-# claude-code-pack
+# claude-code-plugin-pack
 
 개인용 Claude Code 플러그인 팩. 룰, 에이전트, 스킬, 훅을 하나의 repo 에서 관리하고 다른 머신에서 한 줄로 받아쓰기 위한 단일 마켓플레이스 + 플러그인 구조. 현재 문서 작성 규칙과 writer 에이전트가 들어있고, 새 카테고리는 sub-skill / sub-agent 로 계속 추가한다.
 
@@ -11,15 +11,15 @@
 ## 설치
 
 ```bash
-claude plugin marketplace add https://github.com/<your-org>/claude-code-pack
-claude plugin install claude-code-pack@claude-code-pack
+claude plugin marketplace add https://github.com/<your-org>/claude-code-plugin-pack
+claude plugin install claude-code-plugin-pack@claude-code-plugin-pack
 ```
 
 로컬 개발 중에는 GitHub 없이 디렉터리 경로로도 설치 가능.
 
 ```bash
-claude plugin marketplace add ~/claude-code-pack
-claude plugin install claude-code-pack@claude-code-pack
+claude plugin marketplace add ~/claude-code-plugin-pack
+claude plugin install claude-code-plugin-pack@claude-code-plugin-pack
 ```
 
 설치 확인.
@@ -33,12 +33,12 @@ claude plugin list
 1. 로컬에서 룰 또는 에이전트 정의 편집.
 
     ```bash
-    $EDITOR ~/claude-code-pack/skills/method-doc-rules/SKILL.md
+    $EDITOR ~/claude-code-plugin-pack/skills/method-doc-rules/SKILL.md
     ```
 2. 변경 사항 커밋 후 푸시.
 
     ```bash
-    cd ~/claude-code-pack
+    cd ~/claude-code-plugin-pack
     git add -A
     git commit -m "rule: ..."
     git push
@@ -46,7 +46,7 @@ claude plugin list
 3. 다른 머신에서 최신 룰 반영.
 
     ```bash
-    claude plugin update claude-code-pack
+    claude plugin update claude-code-plugin-pack
     ```
 
 ## 사용
@@ -64,7 +64,7 @@ claude plugin list
 - `commands/<command>.md` — `/command` 슬래시 명령 (legacy 포맷)
 - `hooks/` — SessionStart 등 라이프사이클 훅
 
-추가 후 `git push` → 다른 머신에서 `claude plugin update claude-code-pack` 만 하면 반영.
+추가 후 `git push` → 다른 머신에서 `claude plugin update claude-code-plugin-pack` 만 하면 반영.
 
 ## 규칙 변경 원칙
 

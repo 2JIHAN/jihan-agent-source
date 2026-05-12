@@ -79,4 +79,4 @@ version: 0.1.0
 
 ## 규칙 업데이트
 
-사용자가 이 규칙에 대한 피드백을 줄 때, 변경 사항은 이 SKILL.md 파일을 직접 update 한 뒤 `git commit && git push` 한다. 다른 머신에서는 `claude plugin update claude-code-pack` 로 반영.
+사용자가 이 규칙에 대한 피드백을 줄 때, 변경 사항은 이 SKILL.md 파일을 직접 update 한 뒤 `git commit && git push` 한다. 다른 머신에서는 `claude plugin update claude-code-plugin-pack` 로 반영.
