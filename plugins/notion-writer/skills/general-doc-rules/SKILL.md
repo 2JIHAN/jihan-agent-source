@@ -1,6 +1,6 @@
 ---
 name: general-doc-rules
-description: This skill should be used whenever writing or generating any document, report, structured response, or instructional content. Defines the base style rules (colon usage, inline list separators), length and structure conventions, pre-writing research expectations, generalization principles (no personal paths or tokens in output), and comment/annotation conventions.
+description: Use ONLY when the user explicitly asks to author/draft/write/save a DOCUMENT as an artifact (Notion page, markdown file, doc, report, guide file). The request must contain an explicit writing/saving verb together with a document noun. Trigger examples - "노션에 문서 써줘", "리포트 작성해줘", "이거 문서로 정리해줘", "write a doc", "draft a report", "save this as a markdown file". DO NOT trigger on regular chat answers, explanations, summaries, or "structured" inline responses, even if the reply ends up being long or formatted. When in doubt, do NOT load this skill.
 version: 0.1.0
 ---
 

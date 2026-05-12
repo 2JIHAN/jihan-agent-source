@@ -1,6 +1,6 @@
 ---
 name: method-doc-rules
-description: This skill should be used when the user asks to write a how-to guide, installation doc, setup procedure, configuration walkthrough, hardware/software test steps, or any step-by-step procedural document the user will follow to reach a verifiable result. Trigger phrases include "how to set up", "설치하는 법", "셋업하는 법", "방법 문서", "guide", "walkthrough", "tutorial".
+description: Use ONLY when the user explicitly asks to author/draft/write/save a step-by-step procedural DOCUMENT as an artifact (Notion page, markdown file, doc, guide file). The request must contain an explicit writing/saving verb together with a document noun. Trigger examples - "노션에 방법 문서 써줘", "셋업 가이드 작성해줘", "how-to 문서로 정리해줘", "write a setup guide", "draft an installation doc", "save this as a how-to". DO NOT trigger on conversational how-to questions answered inline in chat, even if they contain "방법", "하는 법", "how to", "guide", "tutorial" - those are answer requests, not document-writing requests. When in doubt, do NOT load this skill.
 version: 0.1.0
 ---
 
