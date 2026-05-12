@@ -11,7 +11,7 @@
 ## 설치
 
 ```bash
-claude plugin marketplace add https://github.com/<your-org>/claude-code-plugin-pack
+claude plugin marketplace add https://github.com/2JIHAN/claude-code-plugin-pack
 claude plugin install claude-code-plugin-pack@claude-code-plugin-pack
 ```
 
