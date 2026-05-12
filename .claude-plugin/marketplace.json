@@ -1,15 +1,15 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "claude-code-plugin-pack",
-  "description": "Personal Claude Code plugin pack — single-plugin marketplace.",
+  "description": "Personal Claude Code plugin pack — extensible marketplace hosting one or more plugins.",
   "owner": {
     "name": "sonuvis-jihan"
   },
   "plugins": [
     {
-      "name": "claude-code-plugin-pack",
-      "description": "Personal Claude Code pack (rules, agents, skills, hooks). Ships doc-writing rules + writer agent; designed to grow.",
-      "source": "./"
+      "name": "notion-writer",
+      "description": "Notion-targeted document writer for Claude Code. Ships general + method doc rules tailored to Notion markdown, and a writer agent that publishes pages via the Notion MCP.",
+      "source": "./plugins/notion-writer"
     }
   ]
 }

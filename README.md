@@ -1,25 +1,44 @@
 # claude-code-plugin-pack
 
-개인용 Claude Code 플러그인 팩. 룰, 에이전트, 스킬, 훅을 하나의 repo 에서 관리하고 다른 머신에서 한 줄로 받아쓰기 위한 단일 마켓플레이스 + 플러그인 구조. 현재 문서 작성 규칙과 writer 에이전트가 들어있고, 새 카테고리는 sub-skill / sub-agent 로 계속 추가한다.
+개인용 Claude Code 플러그인 팩 (마켓플레이스). 룰, 에이전트, 스킬, 훅을 관심사 단위로 묶어 sub-plugin 으로 호스팅한다. 다른 머신에서 한 줄로 받아 쓰고, 새 관심사가 생기면 `plugins/<name>/` 디렉터리를 추가하는 식으로 확장한다.
 
-## 구성
+## 구조
 
-- `skills/general-doc-rules/SKILL.md` — 모든 산출물 공통 규칙 (문체, 길이/구조, 사전 조사, 일반화, 코멘트)
-- `skills/method-doc-rules/SKILL.md` — 단계별 실행 가이드 (`# 개요`, `# 준비`, `# 실행`, `# 확인` 4-섹션 구조, `**✅ Output**` 컨벤션, 콜아웃 색상 등)
-- `agents/writer.md` — 두 skill 을 적용해 문서를 작성하는 전담 에이전트
+```
+claude-code-plugin-pack/        ← 마켓플레이스 루트
+├── .claude-plugin/
+│   └── marketplace.json        ← 마켓플레이스 정의 + plugin 목록
+└── plugins/
+    └── notion-writer/          ← plugin 1: Notion 문서 작성 규칙 + writer 에이전트
+        ├── .claude-plugin/
+        │   └── plugin.json
+        ├── agents/
+        │   └── writer.md
+        └── skills/
+            ├── general-doc-rules/SKILL.md
+            └── method-doc-rules/SKILL.md
+```
+
+스코프, `@` 뒤는 마켓플레이스 이름 (이 repo 이름), `@` 앞은 그 안의 plugin 이름.
+
+## 수록된 plugin
+
+| plugin | 설명 |
+| --- | --- |
+| `notion-writer` | Notion 문서 작성 규칙 (general + method) 과 writer 에이전트 |
 
 ## 설치
 
 ```bash
 claude plugin marketplace add https://github.com/2JIHAN/claude-code-plugin-pack
-claude plugin install claude-code-plugin-pack@claude-code-plugin-pack
+claude plugin install notion-writer@claude-code-plugin-pack
 ```
 
 로컬 개발 중에는 GitHub 없이 디렉터리 경로로도 설치 가능.
 
 ```bash
 claude plugin marketplace add ~/claude-code-plugin-pack
-claude plugin install claude-code-plugin-pack@claude-code-plugin-pack
+claude plugin install notion-writer@claude-code-plugin-pack
 ```
 
 설치 확인.
@@ -33,20 +52,20 @@ claude plugin list
 1. 로컬에서 룰 또는 에이전트 정의 편집.
 
     ```bash
-    $EDITOR ~/claude-code-plugin-pack/skills/method-doc-rules/SKILL.md
+    $EDITOR ~/claude-code-plugin-pack/plugins/notion-writer/skills/method-doc-rules/SKILL.md
     ```
 2. 변경 사항 커밋 후 푸시.
 
     ```bash
     cd ~/claude-code-plugin-pack
     git add -A
-    git commit -m "rule: ..."
+    git commit -m "docs: ..."
     git push
     ```
-3. 다른 머신에서 최신 룰 반영.
+3. 다른 머신에서 최신 반영.
 
     ```bash
-    claude plugin update claude-code-plugin-pack
+    claude plugin update notion-writer
     ```
 
 ## 사용
@@ -57,14 +76,15 @@ claude plugin list
 
 ## 확장
 
-새 룰 카테고리, 에이전트, 훅을 추가하려면 다음 디렉터리 컨벤션을 따른다.
+새 관심사 (예 `code-review`, `research`) 를 추가하려면 다음 단계를 따른다.
 
-- `skills/<skill-name>/SKILL.md` — 모델이 description 기반으로 자동 활성화하는 룰/지침
-- `agents/<agent-name>.md` — 명시적으로 spawn 되는 전담 에이전트
-- `commands/<command>.md` — `/command` 슬래시 명령 (legacy 포맷)
-- `hooks/` — SessionStart 등 라이프사이클 훅
+1. `plugins/<name>/` 디렉터리 생성.
+2. 그 안에 `.claude-plugin/plugin.json` 과 `agents/`, `skills/`, `commands/`, `hooks/` 중 필요한 것을 둔다.
+3. 루트 `.claude-plugin/marketplace.json` 의 `plugins` 배열에 새 plugin 엔트리 추가 (`name`, `description`, `source: "./plugins/<name>"`).
+4. `git commit && git push`.
+5. 다른 머신에서 `claude plugin install <name>@claude-code-plugin-pack` 으로 설치.
 
-추가 후 `git push` → 다른 머신에서 `claude plugin update claude-code-plugin-pack` 만 하면 반영.
+같은 마켓플레이스 안의 plugin 끼리는 독립적으로 install/uninstall/update 가 가능하다.
 
 ## 규칙 변경 원칙
 
