@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "agent-doc-rules",
+  "description": "Single-plugin marketplace for agent-doc-rules",
+  "owner": {
+    "name": "sonuvis-jihan"
+  },
+  "plugins": [
+    {
+      "name": "agent-doc-rules",
+      "description": "Document-writing rules and writer agent (general + method docs)",
+      "source": "."
+    }
+  ]
+}
