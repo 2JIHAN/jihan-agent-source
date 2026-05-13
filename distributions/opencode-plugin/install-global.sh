@@ -15,6 +15,7 @@ new_files=(
   "skills/general-doc-rules/SKILL.md"
   "skills/method-doc-rules/SKILL.md"
   "agents/notion-writer.md"
+  "agents/verifier-on-sandbox.md"
 )
 
 # 직전 install 이 owning 했지만 이번엔 빠진 stale 파일 제거
@@ -41,7 +42,9 @@ cp "$SCRIPT_DIR/.opencode/skills/method-doc-rules/SKILL.md" \
   "$OPENCODE_CONFIG_DIR/skills/method-doc-rules/SKILL.md"
 cp "$SCRIPT_DIR/.opencode/agents/notion-writer.md" \
   "$OPENCODE_CONFIG_DIR/agents/notion-writer.md"
+cp "$SCRIPT_DIR/.opencode/agents/verifier-on-sandbox.md" \
+  "$OPENCODE_CONFIG_DIR/agents/verifier-on-sandbox.md"
 
 printf "%s\n" "${new_files[@]}" > "$MANIFEST"
 
-echo "installed OpenCode skills and notion-writer agent to $OPENCODE_CONFIG_DIR"
+echo "installed OpenCode skills and agents to $OPENCODE_CONFIG_DIR"
