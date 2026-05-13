@@ -1,0 +1,8 @@
+{
+  "name": "verifier-on-sandbox",
+  "description": "Document command verifier. Reads a how-to / setup / tutorial doc, extracts the shell commands it declares, runs them one by one inside a disposable Ubuntu Docker container (colima on macOS), and reports pass/fail per command with root-cause hypothesis on first failure.",
+  "version": "0.1.0",
+  "author": {
+    "name": "2jihan"
+  }
+}
