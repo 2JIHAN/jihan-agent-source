@@ -8,6 +8,7 @@ SOURCE_DIR="$REPO_ROOT/source"
 PLUGIN_DIR="$REPO_ROOT/plugins/jihan-agents"
 OPENCODE_DIST_DIR="$REPO_ROOT/distributions/opencode-plugin"
 GEMINI_DIST_DIR="$REPO_ROOT/distributions/gemini-extension"
+CODEX_DIST_DIR="$REPO_ROOT/distributions/codex-plugin"
 
 AGENTS=(
   notion-writer
@@ -103,6 +104,36 @@ for agent in "${AGENTS[@]}"; do
       body { gsub(/에이전트/, "스킬"); print }
     ' "$SOURCE_DIR/agents/$agent.md"
   } > "$GEMINI_DIST_DIR/skills/$agent/SKILL.md"
+done
+
+# Codex CLI plugin: agents and source skills land flat under skills/.
+# Codex SKILL.md frontmatter is minimal (name, description). No user-invokable.
+# .codex-plugin/plugin.json is a committed source file, not regenerated here.
+mkdir -p "$CODEX_DIST_DIR/skills"
+
+rm -rf "$CODEX_DIST_DIR/skills"/*
+
+for skill in "${SKILLS[@]}"; do
+  mkdir -p "$CODEX_DIST_DIR/skills/$skill"
+  cp "$SOURCE_DIR/skills/$skill/SKILL.md" \
+    "$CODEX_DIST_DIR/skills/$skill/SKILL.md"
+done
+
+for agent in "${AGENTS[@]}"; do
+  agent_description=$(awk '/^description: / { sub(/^description: /, ""); print; exit }' "$SOURCE_DIR/agents/$agent.md")
+
+  mkdir -p "$CODEX_DIST_DIR/skills/$agent"
+  {
+    printf -- "---\n"
+    printf "name: %s\n" "$agent"
+    printf "description: %s\n" "$agent_description"
+    printf -- "---\n\n"
+    awk '
+      NR == 1 && $0 == "---" { in_frontmatter = 1; next }
+      in_frontmatter && $0 == "---" { in_frontmatter = 0; body = 1; next }
+      body { gsub(/에이전트/, "스킬"); print }
+    ' "$SOURCE_DIR/agents/$agent.md"
+  } > "$CODEX_DIST_DIR/skills/$agent/SKILL.md"
 done
 
 echo "synced distributions from source"

@@ -1,0 +1,32 @@
+{
+  "name": "jihan-agents",
+  "version": "0.2.0",
+  "description": "Role-based skill suite for documentation lifecycle. Bundles notion-writer (authoring), verifier-on-sandbox (CLI command verification in disposable Ubuntu Docker), notion-doc-verifier (end-to-end Notion doc QA orchestrator), notion-verifier-gui (public URL + UI label checks), and notion-verifier-concept (prose review for dead links, missing steps, factual drift). Includes general-doc-rules and method-doc-rules base skills.",
+  "author": {
+    "name": "2jihan"
+  },
+  "repository": "https://github.com/2JIHAN/jihan-agent-source",
+  "license": "MIT",
+  "keywords": [
+    "notion",
+    "documentation",
+    "verification",
+    "sandbox",
+    "doc-rules"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Jihan Agents",
+    "shortDescription": "Author and verify Notion how-to documents end to end",
+    "longDescription": "Authoring and verification suite for Notion how-to documentation. Generates pages with consistent doc rules, runs the doc's shell commands in a disposable Ubuntu sandbox, checks GUI walkthroughs against live public URLs, reviews prose for dead links and ambiguity, and posts findings as inline Notion comments.",
+    "developerName": "2jihan",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Verify this Notion how-to doc end to end and post the findings as inline comments."
+    ]
+  }
+}

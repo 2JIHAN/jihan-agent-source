@@ -22,7 +22,8 @@ jihan-agent-source/
 │   └── jihan-agents/                    # Claude Code 통합 플러그인 (5 agents + 2 skills)
 ├── distributions/
 │   ├── opencode-plugin/                 # OpenCode 배포물
-│   └── gemini-extension/                # Gemini CLI 익스텐션 (agents → user-invokable skills 로 변환)
+│   ├── gemini-extension/                # Gemini CLI 익스텐션 (agents → user-invokable skills 로 변환)
+│   └── codex-plugin/                    # Codex CLI 플러그인 (agents → 최소 frontmatter skills 로 변환)
 ├── .claude-plugin/
 │   └── marketplace.json
 └── scripts/
@@ -93,6 +94,24 @@ gemini extensions list
 ```
 
 Claude Code 의 sub-agent 위임은 Gemini 에서는 SKILL activation 으로 매핑된다. 도구 이름 차이 (`Bash` → `run_shell_command`, `WebFetch` → `web_fetch` 등) 는 익스텐션의 `GEMINI.md` 안 매핑 표를 참고. Notion MCP, ghostdesk MCP 등 외부 의존은 `~/.gemini/settings.json` 의 `mcpServers` 에 동일하게 등록 필요.
+
+## Codex CLI 설치
+
+원본 agent 가 Codex 의 SKILL.md 포맷 (frontmatter `name`, `description`) 으로 변환되어 `distributions/codex-plugin/` 에 들어있다. `.codex-plugin/plugin.json` manifest 포함.
+
+```bash
+git clone https://github.com/2JIHAN/jihan-agent-source ~/jihan-agent-source
+```
+
+로컬 plugin 폴더를 Codex 가 찾을 수 있는 위치에 복사 또는 심볼릭 링크.
+
+```bash
+ln -s ~/jihan-agent-source/distributions/codex-plugin ~/.codex/plugins/jihan-agents
+```
+
+설치 확인은 `codex` 실행 후 사용 가능한 skill 목록에 7개 (`notion-writer`, `verifier-on-sandbox`, `notion-doc-verifier`, `notion-verifier-gui`, `notion-verifier-concept`, `general-doc-rules`, `method-doc-rules`) 가 노출되는지로 판단. 정식 plugin 설치 명령은 Codex 버전에 따라 달라지므로 변동 시 README 갱신 예정.
+
+Gemini 와 동일하게 sub-agent 위임은 skill activation 으로 처리되고, MCP 도구는 Codex 의 MCP 설정에 동일한 서버를 등록해야 한다.
 
 ## 업데이트 흐름
 
