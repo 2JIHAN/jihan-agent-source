@@ -7,6 +7,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SOURCE_DIR="$REPO_ROOT/source"
 PLUGIN_DIR="$REPO_ROOT/plugins/jihan-agents"
 OPENCODE_DIST_DIR="$REPO_ROOT/distributions/opencode-plugin"
+GEMINI_DIST_DIR="$REPO_ROOT/distributions/gemini-extension"
 
 AGENTS=(
   notion-writer
@@ -65,6 +66,43 @@ for agent in "${AGENTS[@]}"; do
       body { print }
     ' "$SOURCE_DIR/agents/$agent.md"
   } > "$OPENCODE_DIST_DIR/.opencode/agents/$agent.md"
+done
+
+# Gemini CLI extension: agents become user-invokable skills, source skills stay as-is.
+# gemini-extension.json and GEMINI.md are committed source files, not regenerated here.
+mkdir -p "$GEMINI_DIST_DIR/skills"
+
+rm -rf "$GEMINI_DIST_DIR/skills"/*
+
+for skill in "${SKILLS[@]}"; do
+  mkdir -p "$GEMINI_DIST_DIR/skills/$skill"
+  cp "$SOURCE_DIR/skills/$skill/SKILL.md" \
+    "$GEMINI_DIST_DIR/skills/$skill/SKILL.md"
+done
+
+for agent in "${AGENTS[@]}"; do
+  agent_description=$(awk '/^description: / { sub(/^description: /, ""); print; exit }' "$SOURCE_DIR/agents/$agent.md")
+
+  case "$agent" in
+    notion-verifier-gui|notion-verifier-concept)
+      user_invokable=false ;;
+    *)
+      user_invokable=true ;;
+  esac
+
+  mkdir -p "$GEMINI_DIST_DIR/skills/$agent"
+  {
+    printf -- "---\n"
+    printf "name: %s\n" "$agent"
+    printf "description: %s\n" "$agent_description"
+    printf "user-invokable: %s\n" "$user_invokable"
+    printf -- "---\n\n"
+    awk '
+      NR == 1 && $0 == "---" { in_frontmatter = 1; next }
+      in_frontmatter && $0 == "---" { in_frontmatter = 0; body = 1; next }
+      body { gsub(/에이전트/, "스킬"); print }
+    ' "$SOURCE_DIR/agents/$agent.md"
+  } > "$GEMINI_DIST_DIR/skills/$agent/SKILL.md"
 done
 
 echo "synced distributions from source"

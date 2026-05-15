@@ -21,7 +21,8 @@ jihan-agent-source/
 ├── plugins/
 │   └── jihan-agents/                    # Claude Code 통합 플러그인 (5 agents + 2 skills)
 ├── distributions/
-│   └── opencode-plugin/                 # OpenCode 배포물
+│   ├── opencode-plugin/                 # OpenCode 배포물
+│   └── gemini-extension/                # Gemini CLI 익스텐션 (agents → user-invokable skills 로 변환)
 ├── .claude-plugin/
 │   └── marketplace.json
 └── scripts/
@@ -70,6 +71,29 @@ OpenCode 는 다음 경로에서 자동 발견한다.
 ~/.config/opencode/agents/<name>.md
 ```
 
+## Gemini CLI 설치
+
+원본 agent 가 Gemini 의 SKILL.md 포맷 (`user-invokable: true|false` 포함) 으로 변환되어 `distributions/gemini-extension/` 에 들어있다.
+
+```bash
+git clone https://github.com/2JIHAN/jihan-agent-source ~/jihan-agent-source
+gemini extensions install ~/jihan-agent-source/distributions/gemini-extension
+```
+
+개발 중 source 변경을 실시간으로 반영하려면 `install` 대신 `link` 사용.
+
+```bash
+gemini extensions link ~/jihan-agent-source/distributions/gemini-extension
+```
+
+확인.
+
+```bash
+gemini extensions list
+```
+
+Claude Code 의 sub-agent 위임은 Gemini 에서는 SKILL activation 으로 매핑된다. 도구 이름 차이 (`Bash` → `run_shell_command`, `WebFetch` → `web_fetch` 등) 는 익스텐션의 `GEMINI.md` 안 매핑 표를 참고. Notion MCP, ghostdesk MCP 등 외부 의존은 `~/.gemini/settings.json` 의 `mcpServers` 에 동일하게 등록 필요.
+
 ## 업데이트 흐름
 
 1. `source/` 아래 원본만 수정.
@@ -85,6 +109,7 @@ OpenCode 는 다음 경로에서 자동 발견한다.
    distributions/opencode-plugin/install-global.sh
    claude plugin marketplace update jihan-agents
    claude plugin install jihan-agents@jihan-agents
+   # Gemini 는 link 로 설치했다면 자동 반영, install 로 설치했다면 다시 install
    ```
 4. 변경 사항 커밋 후 푸시.
    ```bash
