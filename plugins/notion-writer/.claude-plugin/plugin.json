@@ -1,8 +1,0 @@
-{
-  "name": "notion-writer",
-  "description": "Notion-targeted document writer. General + method doc rules using Notion-flavored markdown (callouts, code blocks, page hierarchy) plus a writer agent that creates/updates Notion pages via the Notion MCP. Generated from Jihan Agent Source.",
-  "version": "0.4.0",
-  "author": {
-    "name": "2jihan"
-  }
-}
